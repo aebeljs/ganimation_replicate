@@ -430,7 +430,7 @@ class SplitGenerator(nn.Module):
         model = [nn.Conv2d(self.input_nc, ngf, kernel_size=7, stride=1, padding=3, 
                            bias=use_bias),
                  norm_layer(ngf),
-                 nn.ReLU(True)]
+                 nn.LeakyReLU(0.01, True)]
 
         n_downsampling = 2
         for i in range(n_downsampling):
@@ -439,7 +439,7 @@ class SplitGenerator(nn.Module):
                                 kernel_size=4, stride=2, padding=1, \
                                 bias=use_bias),
                       norm_layer(ngf * mult * 2),
-                      nn.ReLU(True)]
+                      nn.LeakyReLU(0.01, True)]
 
         mult = 2**n_downsampling
         for i in range(n_blocks):
@@ -451,7 +451,7 @@ class SplitGenerator(nn.Module):
                                          kernel_size=4, stride=2, padding=1,
                                          bias=use_bias),
                       norm_layer(int(ngf * mult / 2)),
-                      nn.ReLU(True)]
+                      nn.LeakyReLU(0.01, True)]
 
         self.model = nn.Sequential(*model)
         # color mask generator top
